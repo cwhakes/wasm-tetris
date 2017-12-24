@@ -58,6 +58,5 @@ pub unsafe extern "C" fn draw() {
         draw_block(block.x + loc.x, block.y + loc.y);
     }
 
-    draw_player(world.player.x(), world.player.y(), world.player.direction());
     draw_score(data.state.score as f64);
 }
