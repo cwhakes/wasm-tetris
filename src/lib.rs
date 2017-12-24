@@ -66,7 +66,7 @@ pub unsafe extern "C" fn draw() {
 #[no_mangle]
 pub extern "C" fn update(time: c_double) {
     let data: &mut GameData = &mut DATA.lock().unwrap();
-    //data.time_controller.update_seconds(time, &data.actions, &mut data.state);
+    data.time_controller.update_seconds(time, &data.actions, &mut data.state);
 }
 
 #[no_mangle]
