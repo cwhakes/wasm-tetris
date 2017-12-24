@@ -39,12 +39,13 @@ pub extern "C" fn resize(width: c_double, height: c_double) {
 }
 */
 
+//Unsafe because we're calling external functions. Safe otherwise.
 pub unsafe extern "C" fn draw() {
     let data = &mut DATA.lock().unwrap();
     let playfield = &data.state.playfield;
 
     clear_screen();
-    for (y, line) in &world.lines.iter().enumerate() {
+    for (y, line) in &playfield.lines.iter().enumerate() {
         for (x, block) in &line.iter().enumerate() {
             if block.filled() {
                 draw_block(x * 8, y * 8);
@@ -53,10 +54,47 @@ pub unsafe extern "C" fn draw() {
         }
     }
 
-    let loc = &world.live_tetromino.location;
-    for block in &world.live_tetromino.blocks {
+    let loc = &playfield.live_tetromino.location;
+    for block in &playfield.live_tetromino.blocks {
         draw_block(block.x + loc.x, block.y + loc.y);
     }
 
     draw_score(data.state.score as f64);
+}
+
+
+#[no_mangle]
+pub extern "C" fn update(time: c_double) {
+    let data: &mut GameData = &mut DATA.lock().unwrap();
+    data.time_controller.update_seconds(time, &data.actions, &mut data.state);
+}
+
+#[no_mangle]
+pub extern "C" fn rotate_widdershins() {
+    let data = &mut DATA.lock().unwrap();
+    data.playfield.live_tetromino.rotate_widdershins();
+}
+
+#[no_mangle]
+pub extern "C" fn rotate_sunwise() {
+    let data = &mut DATA.lock().unwrap();
+    data.playfield.live_tetromino.rotate_sunwise();
+}
+
+#[no_mangle]
+pub extern "C" fn move_left() {
+    let data = &mut DATA.lock().unwrap();
+    data.playfield.live_tetromino.move_left();
+}
+
+#[no_mangle]
+pub extern "C" fn move_right() {
+    let data = &mut DATA.lock().unwrap();
+    data.playfield.live_tetromino.move_right();
+}
+
+#[no_mangle]
+pub extern "C" fn drop_block() {
+    let data = &mut DATA.lock().unwrap();
+    data.playfield.live_tetromino.drop_block();
 }
