@@ -39,7 +39,7 @@ pub extern "C" fn resize(width: c_double, height: c_double) {
 }
 */
 
-//Unsafe because we're calling external functions. Safe otherwise.
+//Unsafe because we're calling external draw functions. Safe otherwise.
 pub unsafe extern "C" fn draw() {
     let data = &mut DATA.lock().unwrap();
     let playfield = &data.state.playfield;
