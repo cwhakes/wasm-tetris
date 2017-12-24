@@ -82,6 +82,8 @@
     module.update = mod.exports.update;
     module.rotate_sunwise = mod.exports.rotate_sunwise;
     module.rotate_widdershins = mod.exports.rotate_widdershins;
+    module.move_left = mod.exports.move_left;
+    module.move_right = mod.exports.move_right;
     module.drop_block = mod.exports.drop_block;
     //module.resize = mod.exports.resize;
     module.draw = mod.exports.draw;
@@ -89,13 +91,19 @@
     // Input processing
     function processKey(key) {
       switch (key) {
-        case "ArrowLeft":
+        case "z":
           module.rotate_widdershins();
           break;
-        case "ArrowRight":
+        case "x":
           module.rotate_sunwise();
           break;
-        case "ArrowDown":
+        case ",":
+          module.move_left();
+          break;
+        case ".":
+          module.move_right();
+          break;
+        case " ":
           module.drop_block();
           break;
       }
