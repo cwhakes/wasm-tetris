@@ -5,6 +5,7 @@ extern crate pcg_rand;
 
 mod game_state;
 mod geometry;
+mod models;
 
 use std::os::raw::{c_double, c_int};
 use std::sync::Mutex;
