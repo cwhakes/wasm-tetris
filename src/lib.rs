@@ -20,7 +20,7 @@ struct GameData {
     //time_controller: TimeController<Pcg32Basic>
 }
 
-fn new_game_data(width: f64, height: f64) -> GameData {
+fn new_game_data() -> GameData {
     GameData {
         state: GameState::new(Dimensions{x:10,y:22}),
         //time_controller: TimeController::new(Pcg32Basic::from_seed([42, 42]))
