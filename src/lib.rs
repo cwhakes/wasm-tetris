@@ -9,8 +9,10 @@ use std::sync::Mutex;
 use pcg_rand::Pcg32Basic;
 use rand::SeedableRng;
 
+use geometry:Dimensions;
+
 lazy_static! {
-    static ref DATA: Mutex<GameData> = Mutex::new(new_game_data(80.0, 220.0));
+    static ref DATA: Mutex<GameData> = Mutex::new(new_game_data());
 }
 
 struct GameData {
@@ -20,7 +22,7 @@ struct GameData {
 
 fn new_game_data(width: f64, height: f64) -> GameData {
     GameData {
-        state: GameState::new(Size::new(width, height)),
+        state: GameState::new(Dimensions{x:10,y:22}),
         //time_controller: TimeController::new(Pcg32Basic::from_seed([42, 42]))
     }
 }
