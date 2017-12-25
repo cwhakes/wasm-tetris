@@ -1,6 +1,7 @@
 use rand::Rng;
 
 use geometry::Dimensions;
+use models::Block;
 
 #[derive(Debug)]
 pub struct Playfield<T: Rng> {
