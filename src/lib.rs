@@ -3,13 +3,17 @@ extern crate lazy_static;
 extern crate rand;
 extern crate pcg_rand;
 
+mod game_state;
+mod geometry;
+
 use std::os::raw::{c_double, c_int};
 use std::sync::Mutex;
 
 use pcg_rand::Pcg32Basic;
 use rand::SeedableRng;
 
-use geometry:Dimensions;
+use game_state::GameState;
+use geometry::Dimensions;
 
 lazy_static! {
     static ref DATA: Mutex<GameData> = Mutex::new(new_game_data());

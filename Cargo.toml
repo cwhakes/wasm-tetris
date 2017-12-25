@@ -4,3 +4,9 @@ version = "0.1.0"
 authors = ["Will Hakes <charles.hakes@colorado.edu>"]
 
 [dependencies]
+lazy_static = "1.0"
+rand = "0.3.18"
+pcg_rand = "0.7.1"
+
+[patch.crates-io]
+rand = { git = "https://github.com/aochagavia/rand.git", branch = "wasm" }
