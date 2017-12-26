@@ -17,7 +17,21 @@ impl<T: Rng> Playfield<T> {
             rng: rng,
             size: size,
             live_tetromino: None,
-            lines: vec![ vec![None;size.x as usize ]; size.y as usize],
+            lines: vec![ vec![None;size.x as usize]; size.y as usize],
         }
+    }
+
+    ///Checks for and removes filled lines then returns number of lines eliminated
+    pub fn check_and_remove_filled(&mut self) -> i16 {
+        let width = self.size.x;
+        let height = self.size.y;
+
+        self.lines.retain(|line| {
+            width > line.iter().filter(|block| block.is_some()).count() as i16
+        });
+
+        let lines_removed = height - self.lines.len() as i16;
+        self.lines.append(&mut vec![ vec![None; width as usize ]; lines_removed as usize]);
+        lines_removed
     }
 }

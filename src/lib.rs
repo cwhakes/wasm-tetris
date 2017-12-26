@@ -112,4 +112,5 @@ pub extern "C" fn move_right() {
 pub extern "C" fn drop_block() {
     let data = &mut DATA.lock().unwrap();
     data.state.playfield.drop_block();
+    //We just let the dropped tetromino lie until the controller's next cycle 
 }
