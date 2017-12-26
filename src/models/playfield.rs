@@ -1,6 +1,6 @@
 use rand::Rng;
 
-use geometry::Dimensions;
+use geometry::{Dimensions, Position};
 use models::{Block, Tetromino};
 
 #[derive(Debug)]
@@ -33,5 +33,33 @@ impl<T: Rng> Playfield<T> {
         let lines_removed = height - self.lines.len() as i16;
         self.lines.append(&mut vec![ vec![None; width as usize ]; lines_removed as usize]);
         lines_removed
+    }
+
+    pub fn has_room_for(&self, tetromino: &Tetromino) -> bool {
+        let positions = tetromino.blocks.iter()
+            .map(|&(pos, _block)| pos + tetromino.location)
+            .collect::<Vec<Position>>();
+
+        for position in positions.clone() {
+            if position.x < 0
+               || position.x >= self.size.x
+               || position.y < 0
+               // || position.y >= self.size.y
+            {
+                   return false;
+            }
+        }
+
+        for (y, line) in self.lines.iter().enumerate() {
+            for (x, _block) in line.iter().enumerate() {
+                for position in positions.clone() {
+                    if position == Position::new(x as i16, y as i16) {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return true;
     }
 }

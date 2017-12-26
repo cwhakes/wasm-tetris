@@ -3,7 +3,7 @@ use models::Block;
 
 #[derive(Debug, Clone, Copy)]
 pub struct Tetromino {
-    pub position: Position,
+    pub location: Position,
     ///4 blocks because TETRis
     pub blocks: [(Position, Block); 4],
 }
@@ -34,17 +34,17 @@ impl Tetromino {
     }
 
     pub fn move_left(&mut self) -> geometry::Result {
-        self.position.x -= 1;
+        self.location.x -= 1;
         Ok(())
     }
 
     pub fn move_right(&mut self) -> geometry::Result {
-        self.position.x += 1;
+        self.location.x += 1;
         Ok(())
     }
 
     pub fn move_down(&mut self) -> geometry::Result {
-        self.position.y -= 1;
+        self.location.y -= 1;
         Ok(())
     }
 }

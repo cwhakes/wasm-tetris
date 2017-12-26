@@ -60,7 +60,7 @@ pub unsafe extern "C" fn draw() {
     }
 
     if let &Some(tetromino) = &playfield.live_tetromino {
-        let loc = tetromino.position;
+        let loc = tetromino.location;
         for &(pos, _block) in tetromino.blocks.iter() {
             draw_block((loc.x + pos.x) as f64 * 8.0, (loc.y + pos.y) as f64 * 8.0);
         }
