@@ -29,4 +29,16 @@ impl Tetromino {
             pos.rotate_widdershins();
         }
     }
+
+    pub fn move_left(&mut self) {
+        self.position.x -= 1;
+    }
+
+    pub fn move_right(&mut self) {
+        self.position.x += 1;
+    }
+
+    pub fn move_down(&mut self) {
+        self.position.y -= 1;
+    }
 }

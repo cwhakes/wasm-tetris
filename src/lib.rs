@@ -95,13 +95,17 @@ pub extern "C" fn rotate_sunwise() {
 #[no_mangle]
 pub extern "C" fn move_left() {
     let data = &mut DATA.lock().unwrap();
-    data.state.playfield.live_tetromino.move_left();
+    if let Some(tetromino) = data.state.playfield.live_tetromino {
+        tetromino.move_left();
+    }
 }
 
 #[no_mangle]
 pub extern "C" fn move_right() {
     let data = &mut DATA.lock().unwrap();
-    data.state.playfield.live_tetromino.move_right();
+    if let Some(tetromino) = data.state.playfield.live_tetromino {
+        tetromino.move_right();
+    }
 }
 
 #[no_mangle]
