@@ -61,7 +61,7 @@ pub unsafe extern "C" fn draw() {
 
     if let &Some(tetromino) = &playfield.live_tetromino {
         let loc = tetromino.position;
-        for (pos, _block) in tetromino.blocks {
+        for &(pos, _block) in tetromino.blocks.iter() {
             draw_block((loc.x + pos.x) as f64 * 8.0, (loc.y + pos.y) as f64 * 8.0);
         }
     }
@@ -80,7 +80,7 @@ pub extern "C" fn update(time: c_double) {
 pub extern "C" fn rotate_widdershins() {
     let data = &mut DATA.lock().unwrap();
     if let Some(tetromino) = data.state.playfield.live_tetromino {
-        tetromino.rotate_widdershins();
+        let _ = tetromino.rotate_widdershins();
     }
 }
 
@@ -88,7 +88,7 @@ pub extern "C" fn rotate_widdershins() {
 pub extern "C" fn rotate_sunwise() {
     let data = &mut DATA.lock().unwrap();
     if let Some(tetromino) = data.state.playfield.live_tetromino {
-        tetromino.rotate_sunwise();
+        let _ = tetromino.rotate_sunwise();
     }
 }
 
@@ -96,7 +96,7 @@ pub extern "C" fn rotate_sunwise() {
 pub extern "C" fn move_left() {
     let data = &mut DATA.lock().unwrap();
     if let Some(tetromino) = data.state.playfield.live_tetromino {
-        tetromino.move_left();
+        let _ = tetromino.move_left();
     }
 }
 
@@ -104,7 +104,7 @@ pub extern "C" fn move_left() {
 pub extern "C" fn move_right() {
     let data = &mut DATA.lock().unwrap();
     if let Some(tetromino) = data.state.playfield.live_tetromino {
-        tetromino.move_right();
+        let _ = tetromino.move_right();
     }
 }
 

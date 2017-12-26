@@ -1,10 +1,11 @@
-use geometry::Position;
+use geometry::{self, Position};
 use models::Block;
 
-#[derive(Debug)]
+#[derive(Debug, Clone, Copy)]
 pub struct Tetromino {
     pub position: Position,
-    pub blocks: Vec<(Position, Block)>,
+    ///4 blocks because TETRis
+    pub blocks: [(Position, Block); 4],
 }
 
 pub enum TetShape {
@@ -18,27 +19,32 @@ pub enum TetShape {
 }
 
 impl Tetromino {
-    pub fn rotate_sunwise(&mut self) {
-        for (pos, _block) in self.blocks {
+    pub fn rotate_sunwise(&mut self) -> geometry::Result {
+        for &mut (pos, _block) in self.blocks.iter_mut() {
             pos.rotate_sunwise();
         }
+        Ok(())
     }
 
-    pub fn rotate_widdershins(&mut self) {
-        for (pos, _block) in self.blocks {
+    pub fn rotate_widdershins(&mut self) -> geometry::Result {
+        for &mut (pos, _block) in self.blocks.iter_mut() {
             pos.rotate_widdershins();
         }
+        Ok(())
     }
 
-    pub fn move_left(&mut self) {
+    pub fn move_left(&mut self) -> geometry::Result {
         self.position.x -= 1;
+        Ok(())
     }
 
-    pub fn move_right(&mut self) {
+    pub fn move_right(&mut self) -> geometry::Result {
         self.position.x += 1;
+        Ok(())
     }
 
-    pub fn move_down(&mut self) {
+    pub fn move_down(&mut self) -> geometry::Result {
         self.position.y -= 1;
+        Ok(())
     }
 }
