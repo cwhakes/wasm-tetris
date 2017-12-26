@@ -18,14 +18,14 @@ pub enum TetShape {
 }
 
 impl Tetromino {
-    pub rotate_sunwise(&mut self) {
-        for (&mut pos, &mut _block) in self.blocks {
+    pub fn rotate_sunwise(&mut self) {
+        for (pos, _block) in self.blocks {
             pos.rotate_sunwise();
         }
     }
-    
-    pub rotate_widdershins(&mut self) {
-        for (&mut pos, &mut _block) in self.blocks {
+
+    pub fn rotate_widdershins(&mut self) {
+        for (pos, _block) in self.blocks {
             pos.rotate_widdershins();
         }
     }
