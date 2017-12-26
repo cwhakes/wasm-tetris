@@ -1,7 +1,7 @@
 use rand::Rng;
 
 use geometry::Dimensions;
-use models::Block;
+use models::{Block, Tetromino};
 
 #[derive(Debug)]
 pub struct Playfield<T: Rng> {

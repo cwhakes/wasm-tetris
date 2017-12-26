@@ -59,9 +59,11 @@ pub unsafe extern "C" fn draw() {
         }
     }
 
-    let loc = &playfield.live_tetromino.location;
-    for block in &playfield.live_tetromino.blocks {
-        draw_block((block.x + loc.x) as f64 * 8.0, (block.y + loc.y) as f64 * 8.0);
+    if let &Some(tetromino) = &playfield.live_tetromino {
+        let loc = tetromino.position;
+        for (pos, _block) in tetromino.blocks {
+            draw_block((loc.x + pos.x) as f64 * 8.0, (loc.y + pos.y) as f64 * 8.0);
+        }
     }
 
     draw_score(data.state.score as f64);
@@ -77,13 +79,17 @@ pub extern "C" fn update(time: c_double) {
 #[no_mangle]
 pub extern "C" fn rotate_widdershins() {
     let data = &mut DATA.lock().unwrap();
-    data.state.playfield.live_tetromino.rotate_widdershins();
+    if let Some(tetromino) = data.state.playfield.live_tetromino {
+        tetromino.rotate_widdershins();
+    }
 }
 
 #[no_mangle]
 pub extern "C" fn rotate_sunwise() {
     let data = &mut DATA.lock().unwrap();
-    data.state.playfield.live_tetromino.rotate_sunwise();
+    if let Some(tetromino) = data.state.playfield.live_tetromino {
+        tetromino.rotate_sunwise();
+    }
 }
 
 #[no_mangle]
@@ -101,5 +107,5 @@ pub extern "C" fn move_right() {
 #[no_mangle]
 pub extern "C" fn drop_block() {
     let data = &mut DATA.lock().unwrap();
-    data.state.playfield.live_tetromino.drop_block();
+    data.state.playfield.drop_block();
 }
