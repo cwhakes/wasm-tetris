@@ -82,4 +82,8 @@ impl<T: Rng> Playfield<T> {
         }
 
     }
+
+    pub fn drop_block(&mut self) {
+        while Ok(()) == self.checked_trans_rot(Tetromino::move_down) {}
+    }
 }
