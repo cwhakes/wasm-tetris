@@ -1,7 +1,7 @@
 use rand::Rng;
 
 use geometry::{Dimensions, Position, self};
-use models::{Block, Tetromino};
+use models::{Block, Tetromino, TetShape};
 
 #[derive(Debug)]
 pub struct Playfield<T: Rng> {
@@ -18,6 +18,29 @@ impl<T: Rng> Playfield<T> {
             size: size,
             live_tetromino: None,
             lines: vec![ vec![None;size.x as usize]; size.y as usize],
+        }
+    }
+
+    pub fn new_tetromino(&mut self) {
+        let shape = match self.rng.gen_range(0u8, 6) {
+            0 => TetShape::I,
+            1 => TetShape::O,
+            2 => TetShape::T,
+            3 => TetShape::J,
+            4 => TetShape::L,
+            5 => TetShape::S,
+            6 => TetShape::Z,
+            _ => unreachable!()
+        };
+        self.live_tetromino = Some(Tetromino::new(shape, Position::new(5,20)));
+    }
+
+    pub fn lock_tetromino(&mut self) {
+        if let Some(tetromino) = self.live_tetromino.take() {
+            let loc = tetromino.location;
+            for &(pos, _block) in tetromino.blocks.iter() {
+                self.lines[(loc+pos).y as usize][(loc+pos).x as usize] = Some(Block{});
+            }
         }
     }
 

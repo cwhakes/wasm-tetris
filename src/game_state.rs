@@ -10,7 +10,7 @@ pub struct GameState {
     /// The world contains everything that needs to be drawn
     pub playfield: Playfield<Pcg32Basic>,
     /// The current score of the player
-    pub score: u32,
+    pub score: i16,
 }
 
 impl GameState {
