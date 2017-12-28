@@ -1,6 +1,6 @@
 use rand::Rng;
 
-use geometry::{Dimensions, Position};
+use geometry::{Dimensions, Position, self};
 use models::{Block, Tetromino};
 
 #[derive(Debug)]
@@ -61,5 +61,21 @@ impl<T: Rng> Playfield<T> {
         }
 
         return true;
+    }
+
+    pub fn rotate_live_sw(&mut self) -> geometry::Result {
+        if let Some(ref mut tetromino) = self.live_tetromino {
+            let mut new_tetromino = tetromino.clone();
+            new_tetromino.rotate_sunwise();
+            if self.has_room_for(&new_tetromino) {
+                ::std::mem::replace(tetromino, new_tetromino);
+                Ok(())
+            } else {
+                Err(geometry::CauseOfFailure::CantFit)
+            }
+        } else {
+            Err(geometry::CauseOfFailure::NoObject)
+        }
+
     }
 }

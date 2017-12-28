@@ -1,7 +1,9 @@
-use geometry::{self, Position};
-use models::Block;
+use rand::Rng;
 
-#[derive(Debug, Clone, Copy)]
+use geometry::{self, Position};
+use models::{Block, Playfield};
+
+#[derive(Debug, Clone)]
 pub struct Tetromino {
     pub location: Position,
     ///4 blocks because TETRis
@@ -19,11 +21,10 @@ pub enum TetShape {
 }
 
 impl Tetromino {
-    pub fn rotate_sunwise(&mut self) -> geometry::Result {
+    pub fn rotate_sunwise<T:Rng>(&mut self) {
         for &mut (pos, _block) in self.blocks.iter_mut() {
             pos.rotate_sunwise();
-        }
-        Ok(())
+        };
     }
 
     pub fn rotate_widdershins(&mut self) -> geometry::Result {

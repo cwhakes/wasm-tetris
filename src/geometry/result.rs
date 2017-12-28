@@ -3,5 +3,6 @@ pub type Result = ::std::result::Result<(), CauseOfFailure>;
 
 #[derive(Debug)]
 pub enum CauseOfFailure {
-    BlocksPresent
+    CantFit,
+    NoObject,
 }
