@@ -63,10 +63,14 @@ impl<T: Rng> Playfield<T> {
         return true;
     }
 
-    pub fn rotate_live_sw(&mut self) -> geometry::Result {
+    pub fn checked_trans_rot<F>(&mut self, closure: F) -> geometry::Result 
+        where F: FnOnce(&mut Tetromino)
+    {
         if let Some(ref mut tetromino) = self.live_tetromino {
             let mut new_tetromino = tetromino.clone();
-            new_tetromino.rotate_sunwise();
+
+            closure(&mut new_tetromino);
+
             if self.has_room_for(&new_tetromino) {
                 ::std::mem::replace(tetromino, new_tetromino);
                 Ok(())

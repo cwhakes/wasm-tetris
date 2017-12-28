@@ -87,7 +87,7 @@ pub extern "C" fn rotate_widdershins() {
 #[no_mangle]
 pub extern "C" fn rotate_sunwise() {
     let data = &mut DATA.lock().unwrap();
-    let _ = data.state.playfield.rotate_live_sw();
+    let _ = data.state.playfield.checked_trans_rot(models::Tetromino::rotate_sunwise);
 }
 
 #[no_mangle]
