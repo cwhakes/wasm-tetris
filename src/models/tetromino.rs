@@ -1,7 +1,5 @@
-use rand::Rng;
-
-use geometry::{self, Position};
-use models::{Block, Playfield};
+use geometry::Position;
+use models::Block;
 
 #[derive(Debug, Clone)]
 pub struct Tetromino {
@@ -49,14 +47,14 @@ impl Tetromino {
 }
 
 impl Tetromino {
-    pub fn rotate_sunwise<T:Rng>(&mut self) {
-        for &mut (pos, _block) in self.blocks.iter_mut() {
+    pub fn rotate_sunwise(&mut self) {
+        for &mut (mut pos, _block) in self.blocks.iter_mut() {
             pos.rotate_sunwise();
         };
     }
 
     pub fn rotate_widdershins(&mut self) {
-        for &mut (pos, _block) in self.blocks.iter_mut() {
+        for &mut (mut pos, _block) in self.blocks.iter_mut() {
             pos.rotate_widdershins();
         }
     }

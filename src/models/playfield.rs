@@ -66,15 +66,16 @@ impl<T: Rng> Playfield<T> {
     pub fn checked_trans_rot<F>(&mut self, closure: F) -> geometry::Result 
         where F: FnOnce(&mut Tetromino)
     {
-        if let Some(ref mut tetromino) = self.live_tetromino {
+        if let Some(tetromino) = self.live_tetromino.take() {
             let mut new_tetromino = tetromino.clone();
 
             closure(&mut new_tetromino);
 
             if self.has_room_for(&new_tetromino) {
-                ::std::mem::replace(tetromino, new_tetromino);
+                self.live_tetromino = Some(new_tetromino);
                 Ok(())
             } else {
+                self.live_tetromino = Some(tetromino);
                 Err(geometry::CauseOfFailure::CantFit)
             }
         } else {

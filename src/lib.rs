@@ -3,6 +3,7 @@ extern crate lazy_static;
 extern crate rand;
 extern crate pcg_rand;
 
+mod controller;
 mod game_state;
 mod geometry;
 mod models;
@@ -22,13 +23,13 @@ lazy_static! {
 
 struct GameData {
     state: GameState,
-    //time_controller: TimeController<Pcg32Basic>
+    time_controller: controller::Controller,
 }
 
 fn new_game_data() -> GameData {
     GameData {
         state: GameState::new(Dimensions{x:10,y:22}),
-        //time_controller: TimeController::new(Pcg32Basic::from_seed([42, 42]))
+        time_controller: controller::Controller::new(),
     }
 }
 
@@ -59,7 +60,7 @@ pub unsafe extern "C" fn draw() {
         }
     }
 
-    if let &Some(tetromino) = &playfield.live_tetromino {
+    if let Some(ref tetromino) = playfield.live_tetromino {
         let loc = tetromino.location;
         for &(pos, _block) in tetromino.blocks.iter() {
             draw_block((loc.x + pos.x) as f64 * 8.0, (loc.y + pos.y) as f64 * 8.0);
@@ -73,7 +74,7 @@ pub unsafe extern "C" fn draw() {
 #[no_mangle]
 pub extern "C" fn update(time: c_double) {
     let data: &mut GameData = &mut DATA.lock().unwrap();
-    data.time_controller.update_seconds(time, &mut data.state);
+    data.time_controller.update(time, &mut data.state);
 }
 
 #[no_mangle]
