@@ -27,25 +27,21 @@ impl Tetromino {
         };
     }
 
-    pub fn rotate_widdershins(&mut self) -> geometry::Result {
+    pub fn rotate_widdershins(&mut self) {
         for &mut (pos, _block) in self.blocks.iter_mut() {
             pos.rotate_widdershins();
         }
-        Ok(())
     }
 
-    pub fn move_left(&mut self) -> geometry::Result {
+    pub fn move_left(&mut self) {
         self.location.x -= 1;
-        Ok(())
     }
 
-    pub fn move_right(&mut self) -> geometry::Result {
+    pub fn move_right(&mut self) {
         self.location.x += 1;
-        Ok(())
     }
 
-    pub fn move_down(&mut self) -> geometry::Result {
+    pub fn move_down(&mut self) {
         self.location.y -= 1;
-        Ok(())
     }
 }

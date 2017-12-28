@@ -79,9 +79,7 @@ pub extern "C" fn update(time: c_double) {
 #[no_mangle]
 pub extern "C" fn rotate_widdershins() {
     let data = &mut DATA.lock().unwrap();
-    if let Some(tetromino) = data.state.playfield.live_tetromino {
-        let _ = tetromino.rotate_widdershins();
-    }
+    let _ = data.state.playfield.checked_trans_rot(models::Tetromino::rotate_widdershins);
 }
 
 #[no_mangle]
@@ -93,17 +91,13 @@ pub extern "C" fn rotate_sunwise() {
 #[no_mangle]
 pub extern "C" fn move_left() {
     let data = &mut DATA.lock().unwrap();
-    if let Some(tetromino) = data.state.playfield.live_tetromino {
-        let _ = tetromino.move_left();
-    }
+    let _ = data.state.playfield.checked_trans_rot(models::Tetromino::move_left);
 }
 
 #[no_mangle]
 pub extern "C" fn move_right() {
     let data = &mut DATA.lock().unwrap();
-    if let Some(tetromino) = data.state.playfield.live_tetromino {
-        let _ = tetromino.move_right();
-    }
+    let _ = data.state.playfield.checked_trans_rot(models::Tetromino::move_right);
 }
 
 #[no_mangle]
