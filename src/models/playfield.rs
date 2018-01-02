@@ -32,7 +32,7 @@ impl<T: Rng> Playfield<T> {
             6 => TetShape::Z,
             _ => unreachable!()
         };
-        self.live_tetromino = Some(Tetromino::new(shape, Position::new(7,18)));
+        self.live_tetromino = Some(Tetromino::new(shape, Position::new(3,6)));
     }
 
     pub fn lock_tetromino(&mut self) {
@@ -59,6 +59,7 @@ impl<T: Rng> Playfield<T> {
     }
 
     pub fn has_room_for(&self, tetromino: &Tetromino) -> bool {
+
         let positions = tetromino.blocks.iter()
             .map(|&(pos, _block)| pos + tetromino.location)
             .collect::<Vec<Position>>();
@@ -67,7 +68,7 @@ impl<T: Rng> Playfield<T> {
             if position.x < 0
                || position.x >= self.size.x
                || position.y < 0
-               // || position.y >= self.size.y
+               || position.y >= self.size.y
             {
                    return false;
             }
@@ -77,7 +78,7 @@ impl<T: Rng> Playfield<T> {
             for (x, _block) in line.iter().enumerate() {
                 for position in positions.clone() {
                     if position == Position::new(x as i16, y as i16) {
-                        return false;
+                        //return false;
                     }
                 }
             }
