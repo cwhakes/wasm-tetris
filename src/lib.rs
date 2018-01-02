@@ -52,7 +52,7 @@ pub unsafe extern "C" fn draw() {
     for (y, line) in playfield.lines.iter().enumerate() {
         for (x, block) in line.iter().enumerate() {
             if block.is_some() {
-                draw_block(x as f64 * 8.0, y as f64 * 8.0);
+                draw_block(x as f64 * 12.0, y as f64 * 12.0);
             }
             
         }
@@ -61,7 +61,7 @@ pub unsafe extern "C" fn draw() {
     if let Some(ref tetromino) = playfield.live_tetromino {
         let loc = tetromino.location;
         for &(pos, _block) in tetromino.blocks.iter() {
-            draw_block((loc+pos).x as f64 * 8.0, (loc+pos).y as f64 * 8.0);
+            draw_block((loc+pos).x as f64 * 12.0, (loc+pos).y as f64 * 12.0);
         }
     }
 

@@ -48,13 +48,13 @@ impl Tetromino {
 
 impl Tetromino {
     pub fn rotate_sunwise(&mut self) {
-        for &mut (mut pos, _block) in self.blocks.iter_mut() {
+        for &mut (ref mut pos, _block) in self.blocks.iter_mut() {
             pos.rotate_sunwise();
         };
     }
 
     pub fn rotate_widdershins(&mut self) {
-        for &mut (mut pos, _block) in self.blocks.iter_mut() {
+        for &mut (ref mut pos, _block) in self.blocks.iter_mut() {
             pos.rotate_widdershins();
         }
     }
