@@ -8,11 +8,8 @@ mod game_state;
 mod geometry;
 mod models;
 
-use std::os::raw::{c_double, c_int};
+use std::os::raw::c_double;
 use std::sync::Mutex;
-
-use pcg_rand::Pcg32Basic;
-use rand::SeedableRng;
 
 use game_state::GameState;
 use geometry::Dimensions;

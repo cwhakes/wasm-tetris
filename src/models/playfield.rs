@@ -32,7 +32,7 @@ impl<T: Rng> Playfield<T> {
             6 => TetShape::Z,
             _ => unreachable!()
         };
-        self.live_tetromino = Some(Tetromino::new(shape, Position::new(5,20)));
+        self.live_tetromino = Some(Tetromino::new(shape, Position::new(7,18)));
     }
 
     pub fn lock_tetromino(&mut self) {

@@ -1,4 +1,3 @@
-use rand::Rng;
 use pcg_rand::Pcg32Basic;
 use rand::SeedableRng;
 
@@ -16,7 +15,7 @@ pub struct GameState {
 impl GameState {
     /// Returns a new `GameState` containing a `World` of the given `Size`
     pub fn new(size: Dimensions) -> GameState {
-        let mut rng = Pcg32Basic::from_seed([42, 42]);
+        let rng = Pcg32Basic::from_seed([41, 42]);
         GameState {
             playfield: Playfield::new(rng, size),
             score: 0,
@@ -25,7 +24,6 @@ impl GameState {
 
     /// Reset our game-state
     pub fn reset(&mut self) {
-        let mut rng = Pcg32Basic::from_seed([42, 42]);
 
         //clear the field and delete the currently falling piece
         self.playfield.lines.clear();
