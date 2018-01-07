@@ -38,8 +38,8 @@ impl<T: Rng> Playfield<T> {
     pub fn lock_tetromino(&mut self) {
         if let Some(tetromino) = self.live_tetromino.take() {
             let loc = tetromino.location;
-            for &(pos, _block) in tetromino.blocks.iter() {
-                self.lines[(loc+pos).y as usize][(loc+pos).x as usize] = Some(Block{});
+            for &(pos, block) in tetromino.blocks.iter() {
+                self.lines[(loc+pos).y as usize][(loc+pos).x as usize] = Some(block);
             }
         }
     }
