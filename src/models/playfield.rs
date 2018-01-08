@@ -17,11 +17,15 @@ impl<T: Rng> Playfield<T> {
             rng: rng,
             size: size,
             live_tetromino: None,
-            lines: vec![ vec![None;size.x as usize]; size.y as usize],
+            lines: Playfield::<T>::create_space(size),
         }
     }
 
-    pub fn new_tetromino(&mut self) {
+    pub fn create_space(size: Dimensions) -> Vec<Vec<Option<Block>>> {
+        vec![ vec![None;size.x as usize]; size.y as usize]
+    }
+
+    pub fn new_tetromino(&mut self) -> geometry::Result {
         let shape = match self.rng.gen_range(0u8, 6) {
             0 => TetShape::I,
             1 => TetShape::O,
@@ -32,7 +36,13 @@ impl<T: Rng> Playfield<T> {
             6 => TetShape::Z,
             _ => unreachable!()
         };
-        self.live_tetromino = Some(Tetromino::new(shape, Position::new(4,19)));
+        let tetromino = Tetromino:: new(shape, Position::new(4,19));
+        if self.has_room_for(&tetromino) {
+            self.live_tetromino = Some(tetromino);
+            Ok(())
+        } else {
+            Err(geometry::CauseOfFailure::CantFit)
+        }
     }
 
     pub fn lock_tetromino(&mut self) {
@@ -54,7 +64,7 @@ impl<T: Rng> Playfield<T> {
         });
 
         let lines_removed = height - self.lines.len() as i16;
-        self.lines.append(&mut vec![ vec![None; width as usize ]; lines_removed as usize]);
+        self.lines.append(&mut Playfield::<T>::create_space(Dimensions{x:width, y:lines_removed}));
         lines_removed
     }
 
@@ -68,7 +78,7 @@ impl<T: Rng> Playfield<T> {
             if position.x < 0
                || position.x >= self.size.x
                || position.y < 0
-               //|| position.y >= self.size.y
+               || position.y >= self.size.y
             {
                    return false;
             }

@@ -22,11 +22,16 @@ impl GameState {
         }
     }
 
+    pub fn end_game(&mut self) {
+        self.reset();
+    }
+
     /// Reset our game-state
     pub fn reset(&mut self) {
 
         //clear the field and delete the currently falling piece
         self.playfield.lines.clear();
+        self.playfield.lines.append(&mut Playfield::<Pcg32Basic>::create_space(self.playfield.size));
         self.playfield.live_tetromino = None;
 
         // Reset score

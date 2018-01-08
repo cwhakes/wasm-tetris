@@ -21,7 +21,9 @@ impl Controller {
         if self.current_time >= self.last_update + UPDATE_PERIOD {
             self.last_update = self.current_time;
             if state.playfield.live_tetromino.is_none() {
-                state.playfield.new_tetromino();
+                if state.playfield.new_tetromino().is_err() {
+                    state.end_game();
+                }
             } else {
                 if state.playfield.checked_trans_rot(Tetromino::move_down).is_err() {
                     state.playfield.lock_tetromino();
