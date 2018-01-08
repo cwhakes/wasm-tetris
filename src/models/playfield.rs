@@ -1,11 +1,15 @@
 use geometry::{Dimensions, Position, self};
 use models::{Block, Tetromino, TetShape};
 
+///The number of steps before a tetromino locks
+const SLIDE_TIME:u8 = 2;
+
 #[derive(Debug)]
 pub struct Playfield {
     pub size: Dimensions,
     pub live_tetromino: Option<Tetromino>,
     pub lines: Vec<Vec<Option<Block>>>,
+    pub slide: u8,
 }
 
 impl Playfield {
@@ -14,6 +18,7 @@ impl Playfield {
             size: size,
             live_tetromino: None,
             lines: Playfield::create_space(size),
+            slide: 0,
         }
     }
 
@@ -32,6 +37,12 @@ impl Playfield {
     }
 
     pub fn lock_tetromino(&mut self) {
+
+        if self.slide < SLIDE_TIME {
+            self.slide += 1;
+            return;
+        }
+
         if let Some(tetromino) = self.live_tetromino.take() {
             let loc = tetromino.location;
             for &(pos, block) in tetromino.blocks.iter() {
@@ -95,6 +106,7 @@ impl Playfield {
 
             if self.has_room_for(&new_tetromino) {
                 self.live_tetromino = Some(new_tetromino);
+                self.slide = 0;
                 Ok(())
             } else {
                 self.live_tetromino = Some(tetromino);
