@@ -1,23 +1,19 @@
-use rand::Rng;
-
 use geometry::{Dimensions, Position, self};
 use models::{Block, Tetromino, TetShape};
 
 #[derive(Debug)]
-pub struct Playfield<T: Rng> {
-    rng: T,
+pub struct Playfield {
     pub size: Dimensions,
     pub live_tetromino: Option<Tetromino>,
     pub lines: Vec<Vec<Option<Block>>>,
 }
 
-impl<T: Rng> Playfield<T> {
-    pub fn new(rng:T, size:Dimensions) -> Playfield<T> {
+impl Playfield {
+    pub fn new(size:Dimensions) -> Playfield {
         Playfield {
-            rng: rng,
             size: size,
             live_tetromino: None,
-            lines: Playfield::<T>::create_space(size),
+            lines: Playfield::create_space(size),
         }
     }
 
@@ -25,18 +21,8 @@ impl<T: Rng> Playfield<T> {
         vec![ vec![None;size.x as usize]; size.y as usize]
     }
 
-    pub fn new_tetromino(&mut self) -> geometry::Result {
-        let shape = match self.rng.gen_range(0u8, 6) {
-            0 => TetShape::I,
-            1 => TetShape::O,
-            2 => TetShape::T,
-            3 => TetShape::J,
-            4 => TetShape::L,
-            5 => TetShape::S,
-            6 => TetShape::Z,
-            _ => unreachable!()
-        };
-        let tetromino = Tetromino:: new(shape, Position::new(4,19));
+    pub fn new_tetromino(&mut self, shape:TetShape) -> geometry::Result {
+        let tetromino = Tetromino::new(shape, Position::new(4,19));
         if self.has_room_for(&tetromino) {
             self.live_tetromino = Some(tetromino);
             Ok(())
@@ -64,7 +50,7 @@ impl<T: Rng> Playfield<T> {
         });
 
         let lines_removed = height - self.lines.len() as i16;
-        self.lines.append(&mut Playfield::<T>::create_space(Dimensions{x:width, y:lines_removed}));
+        self.lines.append(&mut Playfield::create_space(Dimensions{x:width, y:lines_removed}));
         lines_removed
     }
 

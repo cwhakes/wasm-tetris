@@ -1,11 +1,15 @@
+use pcg_rand::Pcg32Basic;
+use rand::SeedableRng;
+
 use game_state::GameState;
-use models::Tetromino;
+use models::{Tetromino, TetShape};
 
 const UPDATE_PERIOD: f64 = 0.250;
 
 pub struct Controller {
     current_time: f64,
     last_update: f64,
+    rng: Pcg32Basic,
 }
 
 impl Controller {
@@ -13,6 +17,7 @@ impl Controller {
         Controller {
             current_time: 0.0,
             last_update: 0.0,
+            rng: Pcg32Basic::from_seed([41, 42])
         }
     }
 
@@ -21,7 +26,8 @@ impl Controller {
         if self.current_time >= self.last_update + UPDATE_PERIOD {
             self.last_update = self.current_time;
             if state.playfield.live_tetromino.is_none() {
-                if state.playfield.new_tetromino().is_err() {
+                let shape = TetShape::random(&mut self.rng);
+                if state.playfield.new_tetromino(shape).is_err() {
                     state.end_game();
                 }
             } else {

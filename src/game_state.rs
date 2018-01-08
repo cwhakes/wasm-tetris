@@ -1,13 +1,10 @@
-use pcg_rand::Pcg32Basic;
-use rand::SeedableRng;
-
 use geometry::Dimensions;
 use models::Playfield;
 
 /// The data structure that contains the state of the game
 pub struct GameState {
     /// The world contains everything that needs to be drawn
-    pub playfield: Playfield<Pcg32Basic>,
+    pub playfield: Playfield,
     /// The current score of the player
     pub score: i16,
 }
@@ -15,9 +12,8 @@ pub struct GameState {
 impl GameState {
     /// Returns a new `GameState` containing a `World` of the given `Size`
     pub fn new(size: Dimensions) -> GameState {
-        let rng = Pcg32Basic::from_seed([41, 42]);
         GameState {
-            playfield: Playfield::new(rng, size),
+            playfield: Playfield::new(size),
             score: 0,
         }
     }
@@ -31,7 +27,7 @@ impl GameState {
 
         //clear the field and delete the currently falling piece
         self.playfield.lines.clear();
-        self.playfield.lines.append(&mut Playfield::<Pcg32Basic>::create_space(self.playfield.size));
+        self.playfield.lines.append(&mut Playfield::create_space(self.playfield.size));
         self.playfield.live_tetromino = None;
 
         // Reset score

@@ -1,3 +1,5 @@
+use rand::Rng;
+
 use geometry::Position;
 use models::Block;
 
@@ -6,16 +8,6 @@ pub struct Tetromino {
     pub location: Position,
     ///4 blocks because TETRis
     pub blocks: [(Position, Block); 4],
-}
-
-pub enum TetShape {
-    I,
-    O,
-    T,
-    J,
-    L,
-    S,
-    Z,
 }
 
 impl Tetromino {
@@ -69,5 +61,30 @@ impl Tetromino {
 
     pub fn move_down(&mut self) {
         self.location.y -= 1;
+    }
+}
+
+pub enum TetShape {
+    I,
+    O,
+    T,
+    J,
+    L,
+    S,
+    Z,
+}
+
+impl TetShape {
+    pub fn random<T:Rng>(rng:&mut T) -> TetShape {
+         match rng.gen_range(0u8, 6) {
+            0 => TetShape::I,
+            1 => TetShape::O,
+            2 => TetShape::T,
+            3 => TetShape::J,
+            4 => TetShape::L,
+            5 => TetShape::S,
+            6 => TetShape::Z,
+            _ => unreachable!()
+        }
     }
 }
