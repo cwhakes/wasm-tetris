@@ -1,7 +1,7 @@
 #[macro_use]
 extern crate lazy_static;
 extern crate rand;
-extern crate pcg_rand;
+extern crate rand_chacha;
 
 mod controller;
 mod game_state;

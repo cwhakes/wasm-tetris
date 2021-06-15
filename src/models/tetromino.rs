@@ -76,7 +76,7 @@ pub enum TetShape {
 
 impl TetShape {
     pub fn random<T:Rng>(rng:&mut T) -> TetShape {
-         match rng.gen_range(0u8, 6) {
+         match rng.gen_range(0u8..=6) {
             0 => TetShape::I,
             1 => TetShape::O,
             2 => TetShape::T,
